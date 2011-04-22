@@ -1,6 +1,7 @@
-//TODO: Fix vertical line overflow (max is at 25 or something)
+//TODO: Scrolling
 
 #include "console.h"
+#include "string.h"
 
 static char * const conmem = (char*)0xb8000;	//Where characters get written
 static int ptr_x, ptr_y;	//X and Y positions of the pointer
@@ -20,7 +21,10 @@ void ptr_advance(void)
 	if(ptr_x == 80)	//Automatic line breaks
 	{
 		ptr_x = 0;
-		ptr_y++;
+		if(ptr_y < 25)
+		{
+			ptr_y++;
+		}
 	}
 	else
 	{
