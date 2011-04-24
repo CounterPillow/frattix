@@ -104,9 +104,15 @@ void idt_init(void)
 
 void isr_handler(register_t regs)
 {
-	
-    kprint("recieved interrupt: ");
-    kprint(itoa(regs.int_no));
-    kprint("\n");
-	
+	if(regs.int_no <= 0x1f)	//Exception!
+	{
+		kprint("RECIEVED EXCEPTION ");
+		kprint(itoa(regs.int_no));
+		kprint("\n");
+		asm volatile("cli; hlt");
+	}else{
+		kprint("Interrupt ");
+		kprint(itoa(regs.int_no));
+		kprint(" recieved.\n");
+	}
 } 
