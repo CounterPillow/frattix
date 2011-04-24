@@ -3,6 +3,7 @@
 
 #include "stdint.h"
 
+
 struct idt_entry
 {
 	
@@ -18,21 +19,12 @@ struct idt_ptr
 {
 	
 	uint16_t limit;
-    void     *p;
+	void     *p;
 	
 } __attribute__((packed));
 
-struct registers
-{
-   uint32_t ds;                  // Data segment selector
-   uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha.
-   uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
-   uint32_t eip, cs, eflags, useresp, ss; // Pushed by the processor automatically.
-} ;
-
 typedef struct idt_entry idt_entry_t;
 typedef struct idt_ptr idt_ptr_t;
-typedef struct registers registers_t;
 
 void idt_init(void);
 

@@ -2,6 +2,7 @@
 #include "stdint.h"
 #include "console.h"
 #include "string.h"
+#include "registers.h"
 
 static idt_entry_t idt[256];
 static idt_ptr_t idt_pointer;
@@ -59,7 +60,7 @@ void idt_init(void)
 {
 	
 	idt_pointer.limit = sizeof(struct idt_entry) * 32 - 1;
-    idt_pointer.p     = (void *)&idt;
+	idt_pointer.p     = (void *)&idt;
 	
 	idt_set_entry( 0, (uint32_t)isr0, 0x08, 0x8E);
 	idt_set_entry( 1, (uint32_t)isr0, 0x08, 0x8E);
@@ -101,7 +102,7 @@ void idt_init(void)
 	
 }
 
-void isr_handler(registers_t regs)
+void isr_handler(register_t regs)
 {
 	
     kprint("recieved interrupt: ");
