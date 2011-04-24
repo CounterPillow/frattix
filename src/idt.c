@@ -80,7 +80,7 @@ void idt_set_entry(int i, uint32_t base, uint16_t k, uint8_t flags)
 	
 }
 
-void idt_init(void)
+void idt_init(void)	// Initializes the idt AND the pic!
 {
 	
 	idt_pointer.limit = sizeof(struct idt_entry) * 32 - 1;
@@ -129,6 +129,9 @@ void idt_init(void)
 	//IRQs
 	idt_set_entry(32, (uint32_t)isr32, 0x08, 0x8E);
 	idt_set_entry(33, (uint32_t)isr33, 0x08, 0x8E);
+	idt_set_entry(34, (uint32_t)isr34, 0x08, 0x8E);
+	idt_set_entry(35, (uint32_t)isr35, 0x08, 0x8E);
+	//extendme
 	
 	idt_load((uint32_t)&idt_pointer);
 	asm volatile("sti");
