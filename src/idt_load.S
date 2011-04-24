@@ -5,27 +5,26 @@
 idt_load:
 	mov 4(%esp), %eax	# Move the pointer, given as argument, to %eax
 	lidt (%eax)			# Load the idt from the pointer given in %eax
+	sti
 	ret
 
 
 
 # IDT MACROS
 
-.macro ISR_NOERR y  # define a macro, taking one parameter
-  .global isr\y     # \y accesses the first parameter.
-  isr\y:
-    cli
-    push $0
-    push \y
-    jmp isr_common_stub
+.macro ISR_NOERR y	# define a macro, taking one parameter
+	.global isr\y	# \y accesses the first parameter.
+	isr\y:
+		pushl $0	# dummy error code
+		pushl $\y
+		jmp isr_common_stub
 .endm
 
 .macro ISR_ERR y
-  .global isr\y
-  isr\y:
-    cli
-    push \y
-    jmp isr_common_stub
+	.global isr\y
+	isr\y:
+		pushl $\y
+		jmp isr_common_stub
 .endm
 
 
@@ -34,45 +33,47 @@ idt_load:
 .extern isr_handler
 
 isr_common_stub:
-   pusha                    # Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+	#Push CPU state on the stack
+	push %ebp
+	push %edi
+	push %esi
+	push %edx
+	push %ecx
+	push %ebx
+	push %eax
 
-   mov %ds, %ax              # Lower 16-bits of eax = ds.
-   push %eax                 # save the data segment descriptor
+	# Call the handler
+	push %esp
+	call isr_handler
+	add $4, %esp
 
-   movw $16, %ax  # load the kernel data segment descriptor
-   mov %ax, %ds
-   mov %ax, %es
-   mov %ax, %fs
-   mov %ax, %gs
+	# Restore CPU state
+	pop %eax
+    pop %ebx
+    pop %ecx
+    pop %edx
+    pop %esi
+    pop %edi
+    pop %ebp
 
-   call isr_handler
-
-   pop %eax        # reload the original data segment descriptor
-   mov %ax, %ds
-   mov %ax, %es
-   mov %ax, %fs
-   mov %ax, %gs
-
-   popa             # Pops edi,esi,ebp...
-   add $8, %esp     # Cleans up the pushed error code and pushed ISR number
-   sti
-   iret           # pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+	add $8, %esp	# Cleans up the pushed error code and pushed ISR number
+	iret		# pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 
 
 
 # IDT FUNCS
 
-ISR_NOERR  0
-ISR_NOERR  1
-ISR_NOERR  2
-ISR_NOERR  3
-ISR_NOERR  4
-ISR_NOERR  5
-ISR_NOERR  6
-ISR_NOERR  7
+ISR_NOERR 0
+ISR_NOERR 1
+ISR_NOERR 2
+ISR_NOERR 3
+ISR_NOERR 4
+ISR_NOERR 5
+ISR_NOERR 6
+ISR_NOERR 7
 
-ISR_ERR  8
-ISR_NOERR  9
+ISR_ERR 8
+ISR_NOERR 9
 ISR_ERR 10
 ISR_ERR 11
 ISR_ERR 12
