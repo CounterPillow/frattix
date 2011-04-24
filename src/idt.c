@@ -141,6 +141,11 @@ void isr_handler(register_t regs)
 	{
 		kprint("RECIEVED EXCEPTION ");
 		kprint(itoa(regs.int_no));
+		if(regs.err_code != 0)
+		{
+			kprint(" ERROR-CODE: ");
+			kprint(itoa(regs.err_code));
+		}
 		kprint("\n");
 		asm volatile("cli; hlt");
 	}else{
