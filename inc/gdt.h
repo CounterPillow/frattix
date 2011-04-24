@@ -18,8 +18,8 @@ struct gdt_entry // 64 bytes
 struct gdt_ptr_struct
 {
 	
-	uint16_t limit;               //Upper 16 bits of the selector limits
-	uint32_t base;                //Address of the first gdt_entry struct
+	uint16_t limit; // Upper 16 bits of the selector limits
+	void     *base; // Address of the first gdt_entry struct
 	
 } __attribute__((packed));
 

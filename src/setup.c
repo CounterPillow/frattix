@@ -21,7 +21,7 @@ void setup(struct multiboot_info *mb_info)
 	
 	// gdt
 	
-	kprint(" > GDT...");
+	kprint(" > GDT...\n");
 	
 	gdt_init();
 	
