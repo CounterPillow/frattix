@@ -3,6 +3,7 @@
 #include "console.h"
 #include "string.h"
 #include "registers.h"
+#include "pic.h"
 
 static idt_entry_t idt[256];
 static idt_ptr_t idt_pointer;
@@ -101,7 +102,10 @@ void idt_init(void)
 	idt_set_entry(30, (uint32_t)isr30, 0x08, 0x8E);
 	idt_set_entry(31, (uint32_t)isr31, 0x08, 0x8E);
 	
+	pic_init();
+	
 	idt_load((uint32_t)&idt_pointer);
+	asm volatile("sti");
 	
 }
 

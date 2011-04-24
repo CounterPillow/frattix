@@ -5,7 +5,6 @@
 idt_load:
 	mov 4(%esp), %eax	# Move the pointer, given as argument, to %eax
 	lidt (%eax)			# Load the idt from the pointer given in %eax
-	sti
 	ret
 
 
@@ -13,17 +12,17 @@ idt_load:
 # IDT MACROS
 
 .macro ISR_NOERR argA	# define a macro, taking one parameter
-	.global isr\argA	# \y accesses the first parameter.
+	.global isr\argA	# \argA accesses the first parameter.
 	isr\argA:
-		push $0	# dummy error code
-		push $\argA
+		pushl $0	# dummy error code
+		pushl $\argA
 		jmp isr_common_stub
 .endm
 
 .macro ISR_ERR argA
 	.global isr\argA
 	isr\argA:
-		push $\argA
+		pushl $\argA
 		jmp isr_common_stub
 .endm
 
@@ -61,7 +60,7 @@ isr_common_stub:
 	popa
 
 	add $8, %esp	# Cleans up the pushed error code and pushed ISR number
-	iret			# pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+	iret		# pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 
 
 

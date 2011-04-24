@@ -31,20 +31,14 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Initializing IDT...\n");
 	idt_init();
 	
-	// idt
-	
-	kprint(" > Remapping IRQs...\n");
-	pic_init();
-	
-	
 	//test_dump();
 	
 	kprint(" > Infinite awesomeness loading :\n\n");
-	
+
 	asm volatile ("int $0x3");
 	asm volatile ("int $0x4"); 
 	asm volatile ("int $0x8");
-	asm volatile ("int $0x10");  
+	asm volatile ("int $0x10");
 	
 	kprint("                    ");
 	
