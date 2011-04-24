@@ -15,15 +15,15 @@ idt_load:
 .macro ISR_NOERR y	# define a macro, taking one parameter
 	.global isr\y	# \y accesses the first parameter.
 	isr\y:
-		pushl $0	# dummy error code
-		pushl $\y
+		push $0	# dummy error code
+		push $\y
 		jmp isr_common_stub
 .endm
 
 .macro ISR_ERR y
 	.global isr\y
 	isr\y:
-		pushl $\y
+		push $\y
 		jmp isr_common_stub
 .endm
 
@@ -34,30 +34,34 @@ idt_load:
 
 isr_common_stub:
 	#Push CPU state on the stack
-	push %ebp
-	push %edi
-	push %esi
-	push %edx
-	push %ecx
-	push %ebx
-	push %eax
+	pusha
+	
+	push %ds
+	push %es
+	push %fs
+	push %gs
+	
+	mov $0x10, %ax
+	mov %ax, %ds
+	mov %ax, %es
+	mov %ax, %fs
+	mov %ax, %gs
 
 	# Call the handler
 	push %esp
 	call isr_handler
 	add $4, %esp
-
+	
+	pop %gs
+	pop %fs
+	pop %es
+	pop %ds
+	
 	# Restore CPU state
-	pop %eax
-    pop %ebx
-    pop %ecx
-    pop %edx
-    pop %esi
-    pop %edi
-    pop %ebp
+	popa
 
 	add $8, %esp	# Cleans up the pushed error code and pushed ISR number
-	iret		# pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+	iret			# pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
 
 
 

@@ -3,7 +3,7 @@
 #include "stdint.h"
 struct register_struct
 {
-	uint32_t ds;	//Data Segment Selector
+	uint32_t gs, fs, es, ds;	//Data Segment Selector AND STUFF
 	
 	//Pushed manually
 	uint32_t edi;
@@ -25,6 +25,6 @@ struct register_struct
 	uint32_t eflags;
 	uint32_t useresp;
 	uint32_t ss; 
-};
+}__attribute__((packed));
 typedef struct register_struct register_t;
 #endif
