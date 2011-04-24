@@ -1,6 +1,7 @@
 #include "multiboot.h"
 #include "console.h"
 #include "string.h"
+#include "gdt.h"
 /* This function will be called by start.S, and some multiboot stuff
 will be shoved in its butt */
 void setup(struct multiboot_info *mb_info)
@@ -18,14 +19,11 @@ void setup(struct multiboot_info *mb_info)
 	kprint("   > the strangest way of life <  \n");
 	kprint(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 	
+	// gdt
 	
+	kprint(" > GDT...");
 	
-	//set_color (CON_BLUE, CON_WHITE);
-	
-	/*kprint("  //       CHICKEN  \n");
-	kprint(" <*)___,  SOLUTIONS \n");
-	kprint("  \\_  /             \n");
-	kprint("    ||     BA-GOK!  \n"); */
+	gdt_init();
 	
 	kprint(" > Endless loop of awesomeness...");
 	
