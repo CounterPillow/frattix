@@ -45,6 +45,26 @@ extern void isr28 ();
 extern void isr29 ();
 extern void isr30 ();
 extern void isr31 ();
+//IRQs
+extern void isr32 ();
+extern void isr33 ();
+extern void isr34 ();
+extern void isr35 ();
+extern void isr36 ();
+extern void isr37 ();
+extern void isr38 ();
+extern void isr39 ();
+
+extern void isr40 ();
+extern void isr41 ();
+extern void isr42 ();
+extern void isr43 ();
+extern void isr44 ();
+extern void isr45 ();
+extern void isr46 ();
+extern void isr47 ();
+
+extern void isr48 ();
 
 
 
@@ -87,6 +107,7 @@ void idt_init(void)
 	idt_set_entry(16, (uint32_t)isr16, 0x08, 0x8E);
 	idt_set_entry(17, (uint32_t)isr17, 0x08, 0x8E);
 	idt_set_entry(18, (uint32_t)isr18, 0x08, 0x8E);
+	/* NOT NEEDED BECAUSE THEY'RE NOT USED
 	idt_set_entry(19, (uint32_t)isr19, 0x08, 0x8E);
 	idt_set_entry(20, (uint32_t)isr20, 0x08, 0x8E);
 	idt_set_entry(21, (uint32_t)isr21, 0x08, 0x8E);
@@ -101,8 +122,13 @@ void idt_init(void)
 	idt_set_entry(29, (uint32_t)isr29, 0x08, 0x8E);
 	idt_set_entry(30, (uint32_t)isr30, 0x08, 0x8E);
 	idt_set_entry(31, (uint32_t)isr31, 0x08, 0x8E);
+	*/
 	
 	pic_init();
+	
+	//IRQs
+	idt_set_entry(32, (uint32_t)isr32, 0x08, 0x8E);
+	idt_set_entry(33, (uint32_t)isr33, 0x08, 0x8E);
 	
 	idt_load((uint32_t)&idt_pointer);
 	asm volatile("sti");
