@@ -40,16 +40,6 @@ void gdt_init(void)
 	
 	gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
 	gdt_ptr.base  = (uint32_t)&gdt; // a double pointer might be wrong
-	
-	/*gdt_addentry(0, 0, 0, 0, 0);
-	gdt_addentry(1, 0, 0xffffffff, GDT_FLAG_SEGMENT | GDT_FLAG_32_BIT | 
-		GDT_FLAG_CODESEG | GDT_FLAG_4K_GRAN | GDT_FLAG_PRESENT, 0);
-	gdt_addentry(2, 0, 0xffffffff, GDT_FLAG_SEGMENT | GDT_FLAG_32_BIT |
-        GDT_FLAG_DATASEG | GDT_FLAG_4K_GRAN | GDT_FLAG_PRESENT, 0);
-    gdt_addentry(3, 0, 0xffffffff, GDT_FLAG_SEGMENT | GDT_FLAG_32_BIT |
-        GDT_FLAG_CODESEG | GDT_FLAG_4K_GRAN | GDT_FLAG_PRESENT | GDT_FLAG_RING3, 0);
-    gdt_addentry(4, 0, 0xffffffff, GDT_FLAG_SEGMENT | GDT_FLAG_32_BIT |
-        GDT_FLAG_DATASEG | GDT_FLAG_4K_GRAN | GDT_FLAG_PRESENT | GDT_FLAG_RING3, 0);*/
     
 	gdt_addentry(0, 0, 0, 0, 0);                // Null segment
     gdt_addentry(1, 0, 0xFFFFFFFF, 0xCF, 0x9A); // Code segment
