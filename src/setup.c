@@ -21,14 +21,27 @@ void setup(struct multiboot_info *mb_info)
 	
 	// gdt
 	
-	kprint(" > GDT...\n");
+	kprint(" > Initializing GDT...\n");
 	
 	gdt_init();
 	
-	kprint(" > Endless loop of awesomeness...");
+	kprint(" > Infinite awesomeness loading :\n\n");
+	
+	kprint("                    ");
 	
 	while(1)	//Endless loop of awesome, make sure it doesn't exit
 	{
+		
+		int i,n,s = 0,r = 0;
+		
+		for (i = 0; i <= 1000000; i++)
+			if (s < (i/10000))
+				prg_bar(i/10000, 40, CON_DGREY, CON_LGREY), s = i/10000;
+			else
+				for (n = 0; n <= 200; n++)
+					r = r + n % 200;
+		
+		
 	}
 	
 }

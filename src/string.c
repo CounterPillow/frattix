@@ -29,6 +29,14 @@ void * memcpy ( void * destination, const void * source, int num )
 char *itoa (int num)
 {
 	
+	if (num == 0)
+	{
+		
+		tmpstr[15] = '0';
+		return tmpstr+15;
+		
+	}
+	
 	int i = 15;
 	
 	if (num < 0)

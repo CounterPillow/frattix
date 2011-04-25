@@ -35,6 +35,15 @@ void kprint (char text[]);
 void cur_advance (char newline);
 void scroll (int times);
 void clear (void);
-void set_color (char fgc, char bgc);
+
+void set_color  (char fgc, char bgc);
+void color_save ();
+void color_load ();
+
+void cur_set  (short x, short y);
+void cur_save ();
+void cur_load ();
+
+void prg_bar (int perc, unsigned char size, char fgc, char bgc);
 
 #endif

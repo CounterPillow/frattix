@@ -3,8 +3,22 @@
 
 static char * const conmem = (char*)0xb8000;	// Where characters get written
 static int cur_x = 0, cur_y = 0; // X and Y positions of the pointer
+static int sav_x = 0, sav_y = 0; // X/Y variables for cur_save
 
 static char cur_color = CON_BLACK * 0x10 +  CON_LGREY; // colors! / PopUp
+static char sav_color = 0; // color_save / PopUp
+
+
+
+void set_color  (char fgc, char bgc) { cur_color = bgc * 0x10 + fgc; }
+void color_save () { sav_color = cur_color; }
+void color_load () { cur_color = sav_color; }
+
+void cur_set  (short x, short y) { cur_x = x; cur_y = y; }
+void cur_save () { sav_x = cur_x; sav_y = cur_y; }
+void cur_load () { cur_x = sav_x; cur_y = sav_y; }
+
+
 
 // the basic kprint. Simple \r,\n and \b support.  / PopUp
 void kprint (char *text)
@@ -103,10 +117,54 @@ void clear(void)	//clears the screen, resets text pointers
 	cur_y = 0;
 }
 
-// sets colors  / PopUp
-void set_color (char fgc, char bgc)
+// progressbar. Uses cur_save!  / PopUp
+void prg_bar (int pro, unsigned char size, char fgc, char bgc)
 {
 	
-	cur_color = bgc * 0x10 + fgc;
+	cur_save();
+	color_save();
+	int i, perc;
+	
+	/*if (perc > 0)
+		pro = (perc*100)/size;
+	else
+		pro = 0;*/
+		
+	perc = size * pro / 100;
+	
+	
+	set_color(fgc, bgc);
+	for (i = 0; i < perc; i++)
+		kprint(" ");
+		
+	set_color(bgc, fgc);
+	for (; i < size; i++)
+		kprint(" ");
+	
+	
+	set_color(fgc, bgc);
+	cur_load();
+	
+	cur_x += (size / 2) - 2;
+	
+	if ((size / 2) - 2 >= perc) set_color(bgc, fgc);
+	kprint(itoa(pro / 100 % 10));
+	
+	if ((size / 2) - 1 >= perc) set_color(bgc, fgc);
+	kprint(itoa(pro / 10 % 10));
+	
+	if ((size / 2) - 0 >= perc) set_color(bgc, fgc);
+	kprint(itoa(pro % 10));
+	
+	if ((size / 2) + 1 >= perc) set_color(bgc, fgc);
+	kprint("%");
+	
+	
+	color_load();
+	cur_load();
+	
+	/*kprint("[");
+	kprint(itoa(pro / 100 % 10));
+	kprint("]");*/
 	
 }
