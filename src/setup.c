@@ -2,6 +2,7 @@
 #include "console.h"
 #include "string.h"
 #include "gdt.h"
+#include "idt.h"
 /* This function will be called by start.S, and some multiboot stuff
 will be shoved in its butt */
 void setup(struct multiboot_info *mb_info)
@@ -22,10 +23,15 @@ void setup(struct multiboot_info *mb_info)
 	// gdt
 	
 	kprint(" > Initializing GDT...\n");
-	
 	gdt_init();
 	
+	kprint(" > Initializing IDT...\n");
+	idt_init();
+	
 	kprint(" > Infinite awesomeness loading :\n\n");
+	
+	asm volatile ("int $0x3");
+	//asm volatile ("int $0x4"); 
 	
 	kprint("                    ");
 	
