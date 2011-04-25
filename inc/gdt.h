@@ -27,5 +27,6 @@ typedef struct gdt_ptr_struct gdt_ptr_t;
 typedef struct gdt_entry gdt_entry_t;	//I'm lazy.
 
 void gdt_init(void);
+extern void test_dump(void);
 
 #endif

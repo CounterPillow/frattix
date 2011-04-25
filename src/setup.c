@@ -3,6 +3,7 @@
 #include "string.h"
 #include "gdt.h"
 #include "idt.h"
+#include "pic.h"
 /* This function will be called by start.S, and some multiboot stuff
 will be shoved in its butt */
 void setup(struct multiboot_info *mb_info)
@@ -25,13 +26,25 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Initializing GDT...\n");
 	gdt_init();
 	
+	// idt
+	
 	kprint(" > Initializing IDT...\n");
 	idt_init();
+	
+	// idt
+	
+	kprint(" > Remapping IRQs...\n");
+	pic_init();
+	
+	
+	//test_dump();
 	
 	kprint(" > Infinite awesomeness loading :\n\n");
 	
 	asm volatile ("int $0x3");
 	asm volatile ("int $0x4"); 
+	asm volatile ("int $0x8");
+	asm volatile ("int $0x10");  
 	
 	kprint("                    ");
 	

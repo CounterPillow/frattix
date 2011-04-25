@@ -12,18 +12,18 @@ idt_load:
 
 # IDT MACROS
 
-.macro ISR_NOERR y	# define a macro, taking one parameter
-	.global isr\y	# \y accesses the first parameter.
-	isr\y:
+.macro ISR_NOERR argA	# define a macro, taking one parameter
+	.global isr\argA	# \y accesses the first parameter.
+	isr\argA:
 		push $0	# dummy error code
-		push $\y
+		push $\argA
 		jmp isr_common_stub
 .endm
 
-.macro ISR_ERR y
-	.global isr\y
-	isr\y:
-		push $\y
+.macro ISR_ERR argA
+	.global isr\argA
+	isr\argA:
+		push $\argA
 		jmp isr_common_stub
 .endm
 
@@ -102,3 +102,27 @@ ISR_NOERR 28
 ISR_NOERR 29
 ISR_NOERR 30
 ISR_NOERR 31
+
+# HW IRQ
+
+ISR_NOERR 32
+ISR_NOERR 33
+ISR_NOERR 34
+ISR_NOERR 35
+ISR_NOERR 36
+ISR_NOERR 37
+ISR_NOERR 38
+ISR_NOERR 39
+ISR_NOERR 40
+ISR_NOERR 41
+ISR_NOERR 42
+ISR_NOERR 43
+ISR_NOERR 44
+ISR_NOERR 45
+ISR_NOERR 46
+ISR_NOERR 47
+
+# SYSCALL (?)
+
+ISR_NOERR 48
+

@@ -27,5 +27,6 @@ typedef struct idt_entry idt_entry_t;
 typedef struct idt_ptr idt_ptr_t;
 
 void idt_init(void);
+void idt_set_entry(int i, uint32_t base, uint16_t k, uint8_t flags);
 
 #endif
