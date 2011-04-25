@@ -31,14 +31,14 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Infinite awesomeness loading :\n\n");
 	
 	asm volatile ("int $0x3");
-	//asm volatile ("int $0x4"); 
+	asm volatile ("int $0x4"); 
 	
 	kprint("                    ");
 	
 	while(1)	//Endless loop of awesome, make sure it doesn't exit
 	{
 		
-		int i,n,s = 0,r = 0;
+		/*int i,n,s = 0,r = 0;
 		
 		for (i = 0; i <= 1000000; i++)
 			if (s < (i/10000))
@@ -47,7 +47,7 @@ void setup(struct multiboot_info *mb_info)
 				for (n = 0; n <= 200; n++)
 					r = r + n % 200;
 		
-		
+		*/
 	}
 	
 }

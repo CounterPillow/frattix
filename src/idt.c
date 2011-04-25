@@ -6,7 +6,7 @@
 static idt_entry_t idt[256];
 static idt_ptr_t idt_pointer;
 
-extern void idt_load(uint8_t);	//ASM function to load the idt, requires a pointer as argument
+extern void idt_load(uint32_t);	//ASM function to load the idt, requires a pointer as argument
 
 extern void isr0 ();
 extern void isr1 ();
