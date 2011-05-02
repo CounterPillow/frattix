@@ -107,7 +107,7 @@ void idt_init(void)	// Initializes the idt AND the pic!
 	idt_set_entry(16, (uint32_t)isr16, 0x08, 0x8E);
 	idt_set_entry(17, (uint32_t)isr17, 0x08, 0x8E);
 	idt_set_entry(18, (uint32_t)isr18, 0x08, 0x8E);
-	/* NOT NEEDED BECAUSE THEY'RE NOT USED
+	/* NOT NEEDED BECAUSE THEY'RE NOT USED */
 	idt_set_entry(19, (uint32_t)isr19, 0x08, 0x8E);
 	idt_set_entry(20, (uint32_t)isr20, 0x08, 0x8E);
 	idt_set_entry(21, (uint32_t)isr21, 0x08, 0x8E);
@@ -122,38 +122,46 @@ void idt_init(void)	// Initializes the idt AND the pic!
 	idt_set_entry(29, (uint32_t)isr29, 0x08, 0x8E);
 	idt_set_entry(30, (uint32_t)isr30, 0x08, 0x8E);
 	idt_set_entry(31, (uint32_t)isr31, 0x08, 0x8E);
-	*/
-	
-	pic_init();
 	
 	//IRQs
 	idt_set_entry(32, (uint32_t)isr32, 0x08, 0x8E);
 	idt_set_entry(33, (uint32_t)isr33, 0x08, 0x8E);
 	idt_set_entry(34, (uint32_t)isr34, 0x08, 0x8E);
 	idt_set_entry(35, (uint32_t)isr35, 0x08, 0x8E);
-	//extendme
+	idt_set_entry(36, (uint32_t)isr36, 0x08, 0x8E);
+	idt_set_entry(37, (uint32_t)isr37, 0x08, 0x8E);
+	idt_set_entry(38, (uint32_t)isr38, 0x08, 0x8E);
+	idt_set_entry(39, (uint32_t)isr39, 0x08, 0x8E);
+	idt_set_entry(40, (uint32_t)isr40, 0x08, 0x8E);
+	idt_set_entry(41, (uint32_t)isr41, 0x08, 0x8E);
+	idt_set_entry(42, (uint32_t)isr42, 0x08, 0x8E);
+	idt_set_entry(43, (uint32_t)isr43, 0x08, 0x8E);
+	idt_set_entry(44, (uint32_t)isr44, 0x08, 0x8E);
+	idt_set_entry(45, (uint32_t)isr45, 0x08, 0x8E);
+	idt_set_entry(46, (uint32_t)isr46, 0x08, 0x8E);
+	idt_set_entry(47, (uint32_t)isr47, 0x08, 0x8E);
+	idt_set_entry(48, (uint32_t)isr48, 0x08, 0x8E);
 	
 	idt_load((uint32_t)&idt_pointer);
-	asm volatile("sti");
 	
 }
 
-void isr_handler(register_t regs)
+void isr_handler(register_t* regs)
 {
-	if(regs.int_no <= 0x1f)	//Exception!
+	if(regs->int_no <= 0x1f)	//Exception!
 	{
 		kprint("RECIEVED EXCEPTION ");
-		kprint(itoa(regs.int_no));
-		if(regs.err_code != 0)
+		kprint(itoa(regs->int_no));
+		if(regs->err_code != 0)
 		{
 			kprint(" ERROR-CODE: ");
-			kprint(itoa(regs.err_code));
+			kprint(itoa(regs->err_code));
 		}
 		kprint("\n");
 		asm volatile("cli; hlt");
 	}else{
 		kprint("Interrupt ");
-		kprint(itoa(regs.int_no));
+		kprint(itoa(regs->int_no));
 		kprint(" recieved.\n");
 	}
 } 

@@ -31,7 +31,10 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Initializing IDT...\n");
 	idt_init();
 	
-	//test_dump();
+	// pic
+	
+	kprint(" > Initializing PIC...\n");
+	pic_init();
 	
 	kprint(" > Infinite awesomeness loading :\n\n");
 
