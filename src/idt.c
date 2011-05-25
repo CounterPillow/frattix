@@ -159,9 +159,10 @@ void isr_handler(register_t* regs)
 		}
 		kprint("\n");
 		asm volatile("cli; hlt");
-	}else{
+	} else {
 		kprint("Interrupt ");
 		kprint(itoa(regs->int_no));
 		kprint(" recieved.\n");
+		pic_send_eoi(regs->int_no - 32);
 	}
 } 

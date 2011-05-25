@@ -36,6 +36,8 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Initializing PIC...\n");
 	pic_init();
 	
+	// interrupts
+	
 	kprint(" > Activating Interrupts...\n");
 	asm volatile("sti");
 	
@@ -45,10 +47,11 @@ void setup(struct multiboot_info *mb_info)
 	asm volatile ("int $0x4"); 
 	asm volatile ("int $0x8");
 	asm volatile ("int $0x10");*/
+	asm volatile ("int $0x20");
 	
 	while(1)	//Endless loop of awesome, make sure it doesn't exit
 	{
-		kprint("Still alive!\n");
+		kprint(".");
 		/*int i,n,s = 0,r = 0;
 		
 		for (i = 0; i <= 1000000; i++)

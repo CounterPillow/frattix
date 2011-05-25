@@ -33,7 +33,7 @@ void gdt_addentry (int i, uint32_t base, uint32_t limit, uint8_t flags, uint8_t 
 	gdt[i].flags     = (limit >> 16) & 0x0F; 
 	
 	gdt[i].flags  = gdt[i].flags | (flags << 4);
-    gdt[i].access = access;
+	gdt[i].access = access;
 	
 }
 
@@ -53,13 +53,13 @@ void gdt_init(void)
 	// GDT_FLAG_4K_GRAN | GDT_FLAG_32_BIT = 0xC
 	
 	gdt_addentry(0, 0, 0, 0, 0);                // Null segment
-    gdt_addentry(1, 0, 0xFFFFFFFF, 0xC, 0x9A); // Code segment
-    gdt_addentry(2, 0, 0xFFFFFFFF, 0xC, 0x92); // Data segment
-    gdt_addentry(3, 0, 0xFFFFFFFF, 0xC, 0xFA); // User mode code segment
-    gdt_addentry(4, 0, 0xFFFFFFFF, 0xC, 0xF2); // User mode data segment
+	gdt_addentry(1, 0, 0xFFFFFFFF, 0xC, 0x9A); // Code segment
+	gdt_addentry(2, 0, 0xFFFFFFFF, 0xC, 0x92); // Data segment
+	gdt_addentry(3, 0, 0xFFFFFFFF, 0xC, 0xFA); // User mode code segment
+	gdt_addentry(4, 0, 0xFFFFFFFF, 0xC, 0xF2); // User mode data segment
 	
 	// we need TSS later  / PopUp
 	
-    gdt_load((uint32_t)&gdt_ptr);
+	gdt_load((uint32_t)&gdt_ptr);
 	
 }

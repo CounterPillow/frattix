@@ -26,12 +26,12 @@ void tasks_schedule(void)
 
 task_t* task_add(void)
 {
-	task_t new_task;
+	task_t* new_task;
 	//THIS IS A STUB
-	if(&first_task == NULL)
+	if(first_task == NULL)
 	{
-		*first_task = new_task;
+		first_task = new_task;
 	}
-	*last_task = new_task;
-	return &new_task;
+	last_task = new_task;
+	return new_task;
 }
