@@ -29,6 +29,6 @@ void pic_mask_irqs(uint16_t mask)	//To disable IRQs
 
 void pic_send_eoi(int irq)		//signalizes that a interrupt has been handled and it can be reset now
 {
-	outb(PIC_MCOMMAND, 0x20);
 	if (irq > 7) outb(PIC_SCOMMAND, 0x20);
+	outb(PIC_MCOMMAND, 0x20);
 }

@@ -26,15 +26,15 @@ void setup(struct multiboot_info *mb_info)
 	kprint(" > Initializing GDT...\n");
 	gdt_init();
 	
-	// idt
-	
-	kprint(" > Initializing IDT...\n");
-	idt_init();
-	
 	// pic
 	
 	kprint(" > Initializing PIC...\n");
 	pic_init();
+	
+	// idt
+	
+	kprint(" > Initializing IDT...\n");
+	idt_init();
 	
 	// interrupts
 	
@@ -51,7 +51,6 @@ void setup(struct multiboot_info *mb_info)
 	
 	while(1)	//Endless loop of awesome, make sure it doesn't exit
 	{
-		kprint(".");
 		/*int i,n,s = 0,r = 0;
 		
 		for (i = 0; i <= 1000000; i++)

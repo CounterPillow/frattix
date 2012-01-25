@@ -3,6 +3,9 @@
 
 #include "stdint.h"
 
+#define IDT_INTERRUPT_COUNT 256
+#define IDT_FLAG_GATE_INTERRUPT 0xe
+#define IDT_FLAG_INUSE 0x80
 
 struct idt_entry
 {
